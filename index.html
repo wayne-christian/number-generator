@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Safe Code Generator</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body data-mode="idle">
+    <main id="app">
+      <section class="screen screen--idle" data-screen="idle" aria-hidden="true">
+        <button class="trigger" id="trigger" type="button">
+          <span class="trigger__label">PRESS THE RED BUTTON</span>
+          <span class="trigger__hint">OR TAP THE SCREEN</span>
+        </button>
+      </section>
+
+      <section class="screen screen--setup" data-screen="setup" aria-hidden="true">
+        <h1>SAFE CODE NOT SET</h1>
+        <p>Press Ctrl + A to enter or generate the safe combination.</p>
+      </section>
+
+      <section class="screen screen--admin" data-screen="admin" aria-hidden="true">
+        <div class="admin-content">
+          <h1>ADMIN</h1>
+          <div class="current-code">
+            <span>CURRENT WINNING CODE</span>
+            <strong id="current-code">NOT SET</strong>
+            <button type="button" class="admin-button admin-button--small" id="toggle-code">SHOW CODE</button>
+          </div>
+
+          <div class="admin-panel" data-admin-panel="menu">
+            <h2>Set the winning code for the safe</h2>
+            <div class="admin-actions">
+              <button type="button" class="admin-button" id="enter-code">ENTER EXISTING CODE</button>
+              <button type="button" class="admin-button" id="generate-code">GENERATE NEW CODE</button>
+            </div>
+          </div>
+
+          <form class="admin-panel" data-admin-panel="entry" hidden>
+            <h2>Enter the 4-digit code currently programmed into the safe</h2>
+            <div class="digit-inputs">
+              <input aria-label="First digit" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" />
+              <input aria-label="Second digit" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" />
+              <input aria-label="Third digit" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" />
+              <input aria-label="Fourth digit" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" />
+            </div>
+            <p class="admin-error" id="entry-error" role="alert"></p>
+            <div class="admin-actions">
+              <button type="submit" class="admin-button">SAVE WINNING CODE</button>
+              <button type="button" class="admin-button admin-button--outline" data-admin-back>BACK</button>
+            </div>
+          </form>
+
+          <div class="admin-panel" data-admin-panel="manual-confirm" hidden>
+            <h2>Set <span data-pending-code></span> as the winning safe code?</h2>
+            <div class="admin-actions">
+              <button type="button" class="admin-button" data-confirm-code>CONFIRM</button>
+              <button type="button" class="admin-button admin-button--outline" id="cancel-manual">CANCEL</button>
+            </div>
+          </div>
+
+          <div class="admin-panel" data-admin-panel="generated" hidden>
+            <h2>NEW SAFE CODE</h2>
+            <p>Reset the physical safe combination to:</p>
+            <p class="admin-code" data-pending-code></p>
+            <div class="admin-actions">
+              <button type="button" class="admin-button admin-button--outline" id="generate-another">GENERATE ANOTHER</button>
+              <button type="button" class="admin-button" id="safe-set">I HAVE SET THE SAFE TO <span data-pending-code></span></button>
+            </div>
+          </div>
+
+          <div class="admin-panel" data-admin-panel="generated-confirm" hidden>
+            <h2>Have you reset the physical safe to <span data-pending-code></span>?</h2>
+            <div class="admin-actions">
+              <button type="button" class="admin-button" data-confirm-code>YES – SAVE CODE</button>
+              <button type="button" class="admin-button admin-button--outline" id="cancel-generated">NO – GO BACK</button>
+            </div>
+          </div>
+
+          <div class="admin-panel" data-admin-panel="saved" hidden>
+            <h2>WINNING CODE SET</h2>
+            <p class="admin-code" data-pending-code></p>
+            <p>Make sure the physical safe is also set to <span data-pending-code></span>.</p>
+          </div>
+
+          <p class="admin-error" id="admin-error" role="alert"></p>
+          <button type="button" class="admin-button admin-button--outline admin-exit" id="admin-exit">RETURN TO GAME</button>
+        </div>
+      </section>
+
+      <section class="screen screen--attention" data-screen="attention" aria-hidden="true">
+        <div class="impact" aria-hidden="true"></div>
+        <p class="attention-copy">HERE WE GO</p>
+      </section>
+
+      <section class="screen screen--message" data-screen="message" aria-hidden="true">
+        <p class="brand-message">
+          <span class="message-line">
+            <span class="message-word message-word--1">GET</span>
+            <span class="message-word message-word--2">REAL</span>
+          </span>
+          <span class="message-line">
+            <span class="message-word message-word--3">WORLD</span>
+            <span class="message-word message-word--4">USEFUL</span>
+          </span>
+        </p>
+      </section>
+
+      <section class="screen screen--reels" data-screen="spinning" aria-hidden="true">
+        <p class="result-label">YOUR CODE</p>
+        <div class="reels" aria-hidden="true">
+          <div class="reel-window"><div class="reel-strip" data-reel></div></div>
+          <div class="reel-window"><div class="reel-strip" data-reel></div></div>
+          <div class="reel-window"><div class="reel-strip" data-reel></div></div>
+          <div class="reel-window"><div class="reel-strip" data-reel></div></div>
+        </div>
+        <p class="safe-instruction">TRY IT IN THE SAFE</p>
+        <p class="screen-reader-only" id="code-announcement" aria-live="polite"></p>
+      </section>
+
+      <section class="screen screen--error" data-screen="error" aria-hidden="true">
+        <p class="error-title">PLEASE ASK A MEMBER OF STAFF</p>
+        <p class="error-copy">The experience could not finish. Reload to try again.</p>
+        <button class="reload-button" id="reload" type="button">RELOAD</button>
+      </section>
+    </main>
+  </body>
+</html>
