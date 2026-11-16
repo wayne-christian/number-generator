@@ -3,6 +3,12 @@
 Run `npm install` once, then `npm run dev`. Run `npm test` and `npm run build`
 to check the application.
 
+## GitHub Pages
+
+The Vite build uses `/number-generator/` as its base path for the GitHub Pages
+project site. Push to `main` to build and deploy it using GitHub Actions, with
+the Pages source set to **GitHub Actions** in the repository settings.
+
 ## Safe setup
 
 The application opens in admin mode. On first use, the default safe code is
